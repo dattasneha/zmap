@@ -1,27 +1,47 @@
 package com.snehadatta.zmap;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
+import android.location.Location;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 public class WebAppInterface {
-    Context mContext;
-
-    /** Instantiate the interface and set the context. */
-    WebAppInterface(Context c) {
-        this.mContext = c;
+    private Context context;
+    private WebView myWebView;
+    private GetLocation getLocation;
+    private final MainActivity mainActivity;
+    WebAppInterface(Context c,WebView webView,MainActivity activity) {
+        this.context = c;
+        this.myWebView = webView;
+        this.getLocation = new GetLocation(c);
+        this.mainActivity = activity;
     }
 
     /** Show a toast from the web page. */
     @JavascriptInterface
     public void showToast(String toast) {
         Log.e("WebView", "Received data from web: " + toast);
-        new Handler(Looper.getMainLooper()).post(() ->
-                Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show()
-        );
+        Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
     }
+
+    /** Call method from web to fetch current location of device and send data to WebView. */
+    @JavascriptInterface
+    public void getDeviceLocation() {
+        if (mainActivity.checkLocationPermission()) {
+            getLocation.startLocationUpdates();
+        }
+        Location location = getLocation.getCurrentLocation();
+
+        if(location != null) {
+            Log.e("debug", location.toString());
+            double lat = location.getLatitude();
+            double lon = location.getLongitude();
+            //Send the location data to WebView
+            String script = "getLocationData("+ location + ")";
+            myWebView.post(()->myWebView.evaluateJavascript(script, null));
+        }
+    }
+
 }
