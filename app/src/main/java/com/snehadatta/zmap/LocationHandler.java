@@ -39,15 +39,19 @@ public class LocationHandler {
 
     private Location currentLocation;
 
+    private JavaScriptHandler javaScriptHandler;
     public LocationHandler(Context context, WebView webView) {
         this.context = context;
         this.webView = webView;
         this.fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
 
+        javaScriptHandler = new JavaScriptHandler(webView);
+
         locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(60))
                 .setMinUpdateIntervalMillis(TimeUnit.SECONDS.toMillis(30)) // Minimum interval between updates
                 .setMaxUpdateDelayMillis(TimeUnit.MINUTES.toMillis(2)) // Maximum delay before updates
                 .build();
+
 
         // Initialize LocationCallback
         locationCallback = new LocationCallback() {
@@ -58,7 +62,7 @@ public class LocationHandler {
                 if (location != null) {
                     Log.d(TAG, "New Location: Lat = " + location.getLatitude() + ", Lng = " + location.getLongitude());
                     currentLocation = location;
-                    sendLocationToWeb(location);
+                    javaScriptHandler.sendLocationToWeb(location);
                     stopLocationUpdates(); // Stop updates after first successful fetch
                 } else {
                     Log.d(TAG, "Location information isn't available.");
@@ -106,7 +110,7 @@ public class LocationHandler {
                 .addOnSuccessListener(location -> {
                     if (location != null) {
                         Log.d(TAG, "Last known location retrieved.");
-                        sendLocationToWeb(location);
+                        javaScriptHandler.sendLocationToWeb(location);
                     } else {
                         Log.d(TAG, "No last known location. Requesting fresh location...");
                         requestNewLocation();
@@ -152,11 +156,6 @@ public class LocationHandler {
     /**
      * Sends the retrieved location to the WebView via JavaScript.
      */
-    private void sendLocationToWeb(Location location) {
-        String script = "updateDeviceLocation(" + location.getLatitude() + ", " + location.getLongitude() + ");";
-
-        webView.post(() -> webView.evaluateJavascript(script, null));
-    }
 
     /**
      * Checks if the app has location permissions.

@@ -8,19 +8,19 @@ import android.widget.ImageView;
 public class Arrow {
     private final ImageView icon;
     private final String key;
-    private final int keyCode;
+    private final String code;
 
     /**
      * Constructs an Arrow object.
      *
      * @param icon The ImageView representing the arrow.
      * @param key The corresponding key (e.g., "ArrowUp").
-     * @param keyCode The key code (e.g., 38 for up arrow).
+     * @param code The key code (e.g., 38 for up arrow).
      */
-    public Arrow(ImageView icon, String key, int keyCode) {
+    public Arrow(ImageView icon, String key, String code) {
         this.icon = icon;
         this.key = key;
-        this.keyCode = keyCode;
+        this.code = code;
     }
 
     /**
@@ -46,7 +46,7 @@ public class Arrow {
      *
      * @return The key code (e.g., 38 for up arrow).
      */
-    public int getKeyCode() {
-        return keyCode;
+    public String getCode() {
+        return code;
     }
 }

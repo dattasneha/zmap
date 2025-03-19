@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_focus"
+        android:title="Focus"
+        android:icon="@drawable/baseline_center_focus_strong_24"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_select_location"
+        android:title="Select current location"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_announce_location"
+        android:title="Current location name"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_reset_cursor"
+        android:title="Reset the marker"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_distance_per_keypress"
+        android:title="Distance traveled by the cursor in one key press"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_announce_altitude"
+        android:title="Current place altitude"
+        app:showAsAction="never" />
+
+    <!-- Border Distance Grouped Options -->
+    <item
+        android:id="@+id/menu_border_distance"
+        android:title="Border distance"
+        app:showAsAction="never">
+
+        <menu>
+            <item
+                android:id="@+id/menu_distance_we"
+                android:title="Western and eastern border"
+                app:showAsAction="never"/>
+
+            <item
+                android:id="@+id/menu_distance_ns"
+                android:title="Northern and southern border"
+                app:showAsAction="never"/>
+
+            <item
+                android:id="@+id/menu_distance_north"
+                android:title="Northern border"
+                app:showAsAction="never"/>
+
+            <item
+                android:id="@+id/menu_distance_south"
+                android:title="Southern border"
+                app:showAsAction="never"/>
+
+
+            <item
+                android:id="@+id/menu_distance_east"
+                android:title="Eastern border"
+                app:showAsAction="never"/>
+
+            <item
+                android:id="@+id/menu_distance_west"
+                android:title="Western border"
+                app:showAsAction="never"/>
+        </menu>
+    </item>
+
+</menu>
