@@ -24,12 +24,10 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GestureDetectorCompat;
 
 
-public class MainActivity extends AppCompatActivity implements
-        View.OnTouchListener,
-GestureDetector.OnGestureListener{
+public class MainActivity extends AppCompatActivity {
     private WebView webView;
     private JavaScriptHandler javaScriptHandler;
-    private  GestureDetector gestureDetector;
+    private CustomGestureListener customGestureListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +38,9 @@ GestureDetector.OnGestureListener{
         javaScriptHandler = new JavaScriptHandler(webView);
         setupArrowControls();
 
-        gestureDetector = new GestureDetector(this, this);
+        View mainLayout = findViewById(R.id.main);
+        customGestureListener = new CustomGestureListener(this);
+        mainLayout.setOnTouchListener(customGestureListener);
 
     }
 
@@ -58,7 +58,7 @@ GestureDetector.OnGestureListener{
         webView.addJavascriptInterface(new WebAppInterface(this, webView, this), "Android");
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl("http://192.168.29.110:3000/");
+        webView.loadUrl("http://192.168.0.118:3000/");
 
     }
 
@@ -202,44 +202,4 @@ GestureDetector.OnGestureListener{
 
     }
 
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (this.gestureDetector.onTouchEvent(event)) {
-            return true;
-        }
-        return super.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean onDown(@NonNull MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public void onShowPress(@NonNull MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(@NonNull MotionEvent e) {
-
-        return true;
-    }
-
-    @Override
-    public boolean onScroll(@Nullable MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(@NonNull MotionEvent e) {
-        Log.d("debug", "gesture");
-        javaScriptHandler.simulateMarkerKeyEvents("KeyD","KeyD", false, false, false);
-    }
-
-    @Override
-    public boolean onFling(@Nullable MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
-        return false;
-    }
 }
