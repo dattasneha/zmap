@@ -134,19 +134,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         int id = item.getItemId();
-        if (id == R.id.menu_focus) {
-            // Code to handle "Focus mode"
-            javaScriptHandler.simulateGeneralKeyEvents(
-                    "KeyM",
-                    "KeyM",
-                    /* isCtrl= */ false,
-                    /* isShift= */ false,
-                    /* isAlt= */ true
-            );
-            Toast.makeText(this, "Focus mode on!", Toast.LENGTH_SHORT).show();
-            return true;
-
-        }  else if (id == R.id.menu_select_location) {
+        if (id == R.id.menu_select_location) {
             // Code to handle "Select the current location of the pointer"
             javaScriptHandler.simulateMarkerKeyEvents(
                     "Enter",

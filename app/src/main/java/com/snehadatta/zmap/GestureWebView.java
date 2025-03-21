@@ -215,26 +215,35 @@ public class GestureWebView extends WebView {
         }
     }
 
+
     public void customZoomIn() {
-        if (getScaleX() < 5.0f) {
-            zoomBy(1.1f);
-            Log.d(TAG, "Custom Zooming In");
+        if (scaleFactor < 10.0f) {
+            applyCustomZoom(1.2f); // Increase the zoom factor for a faster zoom-in
+            Log.d(TAG, "Zooming In: Scale " + scaleFactor);
+        } else {
+            Log.d(TAG, "Max zoom reached!");
         }
     }
 
     public void customZoomOut() {
-        if (getScaleX() > 0.5f) {
-            zoomBy(0.9f);
-            Log.d(TAG, "Custom Zooming Out");
+        if (scaleFactor > 0.3f) {
+            applyCustomZoom(0.8f); // Decrease by a bigger step for faster zoom-out
+            Log.d(TAG, "Zooming Out: Scale " + scaleFactor);
+        } else {
+            Log.d(TAG, "Min zoom reached!");
         }
     }
 
-    @Override
-    public void zoomBy(float factor) {
+    private void applyCustomZoom(float factor) {
         scaleFactor *= factor;
-        scaleFactor = Math.max(0.5f, Math.min(scaleFactor, 5.0f));
+
+        scaleFactor = Math.max(0.3f, Math.min(scaleFactor, 10.0f));
+
         setScaleX(scaleFactor);
         setScaleY(scaleFactor);
+
+        Log.d(TAG, "Zoom Scale: " + scaleFactor);
     }
+
 
 }
