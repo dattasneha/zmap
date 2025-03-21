@@ -53,7 +53,7 @@ public class GestureWebView extends WebView {
 
         // Disable map movement when using more than 1 finger
         if (pointerCount> 1) {
-            return true; // Consume swipe events to prevent default WebView behavior
+            return true;
         } else {
             return super.onTouchEvent(event);
         }
