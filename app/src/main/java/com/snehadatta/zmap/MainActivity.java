@@ -25,9 +25,9 @@ import androidx.core.view.GestureDetectorCompat;
 
 
 public class MainActivity extends AppCompatActivity {
-    private WebView webView;
+    private GestureWebView webView;
     private JavaScriptHandler javaScriptHandler;
-    private CustomGestureListener customGestureListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setupArrowControls();
 
         View mainLayout = findViewById(R.id.main);
-        customGestureListener = new CustomGestureListener(this);
-        mainLayout.setOnTouchListener(customGestureListener);
+
 
     }
 
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupWebView() {
         webView = findViewById(R.id.webview);
         WebSettings webSettings = webView.getSettings();
-
+        webView.setJavaScriptHandler(javaScriptHandler);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setGeolocationEnabled(true);
 
