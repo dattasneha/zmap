@@ -23,10 +23,10 @@
         android:title="Reset the marker"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/menu_distance_per_keypress"
-        android:title="Distance traveled by the cursor in one key press"
-        app:showAsAction="never"/>
+<!--    <item-->
+<!--        android:id="@+id/menu_distance_per_keypress"-->
+<!--        android:title="Distance traveled by the cursor in one key press"-->
+<!--        app:showAsAction="never"/>-->
 
     <item
         android:id="@+id/menu_announce_altitude"

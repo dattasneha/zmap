@@ -35,12 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(findViewById(R.id.toolbar));
 
         setupWebView();
-        javaScriptHandler = new JavaScriptHandler(webView);
         setupArrowControls();
-
-        View mainLayout = findViewById(R.id.main);
-
-
     }
 
     /**
@@ -50,15 +45,16 @@ public class MainActivity extends AppCompatActivity {
     private void setupWebView() {
         webView = findViewById(R.id.webview);
         WebSettings webSettings = webView.getSettings();
-        webView.setJavaScriptHandler(javaScriptHandler);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setGeolocationEnabled(true);
 
         webView.addJavascriptInterface(new WebAppInterface(this, webView, this), "Android");
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl("http://192.168.0.118:3000/");
+        webView.loadUrl("http://192.168.29.110:3000/");
 
+        javaScriptHandler = new JavaScriptHandler(webView);
+        webView.setJavaScriptHandler(javaScriptHandler);
     }
 
     /**
@@ -77,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    
+
     /**
      * Checks if location permission is granted, and requests it if not.
      *
@@ -140,59 +136,131 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.menu_focus) {
             // Code to handle "Focus mode"
-            javaScriptHandler.simulateGeneralKeyEvents("KeyM", "KeyM", /* isCtrl= */ false, false, true);
+            javaScriptHandler.simulateGeneralKeyEvents(
+                    "KeyM",
+                    "KeyM",
+                    /* isCtrl= */ false,
+                    /* isShift= */ false,
+                    /* isAlt= */ true
+            );
             Toast.makeText(this, "Focus mode on!", Toast.LENGTH_SHORT).show();
             return true;
 
         }  else if (id == R.id.menu_select_location) {
             // Code to handle "Select the current location of the pointer"
-            javaScriptHandler.simulateMarkerKeyEvents("Enter", "Enter",false,false,false);
+            javaScriptHandler.simulateMarkerKeyEvents(
+                    "Enter",
+                    "Enter",
+                    /* isCtrl= */ false,
+                    /* isShift= */ false,
+                    /* isAlt= */ false
+            );
             Toast.makeText(this, "Location selected!", Toast.LENGTH_SHORT).show();
 
             return true;
 
         } else if (id == R.id.menu_announce_location) {
             // Code to announce current location
-            javaScriptHandler.simulateMarkerKeyEvents("KeyF", "KeyF", false, false, false);
+            javaScriptHandler.simulateMarkerKeyEvents(
+                    "KeyF",
+                    "KeyF",
+                    /* isCtrl= */ false,
+                    /* isShift= */ false,
+                    /* isAlt= */ false
+            );
             Toast.makeText(this, "Announcing location!", Toast.LENGTH_SHORT).show();
             return true;
 
         } else if (id == R.id.menu_reset_cursor) {
             // Code to reset cursor
-            javaScriptHandler.simulateMarkerKeyEvents("KeyL", "KeyL",false,false,false);
+            javaScriptHandler.simulateMarkerKeyEvents(
+                    "KeyL",
+                    "KeyL",
+                    /* isCtrl= */ false,
+                    /* isShift= */ false,
+                    /* isAlt= */ false
+            );
             Toast.makeText(this, "Cursor reset!", Toast.LENGTH_SHORT).show();
             return true;
 
-        } else if (id == R.id.menu_distance_per_keypress) {
-            Toast.makeText(this, "Distance per keypress!", Toast.LENGTH_SHORT).show();
-            return true;
+//        } else if (id == R.id.menu_distance_per_keypress) {
+//            Toast.makeText(this, "Distance per keypress!", Toast.LENGTH_SHORT).show();
+//            return true;
 
         } else if (id == R.id.menu_announce_altitude) {
-            javaScriptHandler.simulateMarkerKeyEvents("KeyA", "KeyA", false, false, false);
+            javaScriptHandler.simulateMarkerKeyEvents(
+                    "KeyA",
+                    "KeyA",
+                    /* isCtrl= */ false,
+                    /* isShift= */ false,
+                    /* isAlt= */ false
+            );
             return true;
 
         } else if (id == R.id.menu_distance_we) {
-            javaScriptHandler.simulateMarkerKeyEvents("KeyD", "KeyD", false, false, false);
+            javaScriptHandler.simulateMarkerKeyEvents(
+                    "KeyD",
+                    "KeyD",
+                    /* isCtrl= */ false,
+                    /* isShift= */ false,
+                    /* isAlt= */ false
+            );
             return true;
 
         } else if (id == R.id.menu_distance_ns) {
-            Toast.makeText(this, "Distance to North and South borders!", Toast.LENGTH_SHORT).show();
+            javaScriptHandler.simulateMarkerKeyEvents(
+                    "KeyD",
+                    "KeyD",
+                    /* isCtrl= */ false,
+                    /* isShift= */ false,
+                    /* isAlt= */ false
+            );
+            javaScriptHandler.simulateMarkerKeyEvents(
+                    "KeyD",
+                    "KeyD",
+                    /* isCtrl= */ false,
+                    /* isShift= */ false,
+                    /* isAlt= */ false
+            );
             return true;
 
         } else if (id == R.id.menu_distance_north) {
-            javaScriptHandler.simulateMarkerKeyEvents("ArrowUp", "ArrowUp", false,true,false);
+            javaScriptHandler.simulateMarkerKeyEvents(
+                    "ArrowUp",
+                    "ArrowUp",/* isCtrl= */ false,
+                    /* isShift= */ true,
+                    /* isAlt= */ false
+            );
             return true;
 
         } else if (id == R.id.menu_distance_south) {
-            Toast.makeText(this, "Distance to South border!", Toast.LENGTH_SHORT).show();
+            javaScriptHandler.simulateMarkerKeyEvents(
+                    "ArrowDown",
+                    "ArrowDown",
+                    /* isCtrl= */ false,
+                    /* isShift= */ true,
+                    /* isAlt= */ false
+            );
             return true;
 
         } else if (id == R.id.menu_distance_east) {
-            Toast.makeText(this, "Distance to East border!", Toast.LENGTH_SHORT).show();
+            javaScriptHandler.simulateMarkerKeyEvents(
+                    "ArrowRight",
+                    "ArrowRight",
+                    /* isCtrl= */ false,
+                    /* isShift= */ true,
+                    /* isAlt= */ false
+            );
             return true;
 
         } else if (id == R.id.menu_distance_west) {
-            Toast.makeText(this, "Distance to West border!", Toast.LENGTH_SHORT).show();
+            javaScriptHandler.simulateMarkerKeyEvents(
+                    "ArrowLeft",
+                    "ArrowLeft",
+                    /* isCtrl= */ false,
+                    /* isShift= */ true,
+                    /* isAlt= */ false
+            );
             return true;
 
         } else {

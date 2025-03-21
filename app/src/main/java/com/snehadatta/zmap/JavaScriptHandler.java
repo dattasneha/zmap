@@ -23,13 +23,13 @@ public class JavaScriptHandler {
                 "var event = new KeyboardEvent('keydown', {" +
                 "key: '" + key + "', " +
                 "code: '" + keyCode + "', " +
-                "altKey: '"+ isAlt +"', " +
-//                "shiftKey: '"+ isShift +"', " +
-                "ctrlKey: '"+ isCtrl+"', " +
+                ( isCtrl ? "ctrlKey: 'true', " : "") +
+                ( isShift ? "shiftKey: 'true', " : "") +
+                ( isAlt ? "altKey: 'true', " +", " : "") +
                 "});" +
                 "activeElement.dispatchEvent(event);" +
-                "}" + // Close the if block
-                "})();"; // Close the IIFE properly
+                "}" +
+                "})();";
 
 
         webView.post(() ->webView.evaluateJavascript(script, null));
@@ -40,16 +40,13 @@ public class JavaScriptHandler {
                 "const event = new KeyboardEvent('keydown', {" +
                 "key: '" + key + "', " +
                 "code: '" + code + "'," +
-                "altKey: '"+ isAlt +"', " +
-                "shiftKey: '"+ isShift +"', " +
-                "ctrlKey: '"+ isCtrl+"', " + // Removed unnecessary space, no semicolon needed here
-                "});" +  // Correctly added semicolon to end this line
+                ( isCtrl ? "ctrlKey: 'true', " : "") +
+                ( isShift ? "shiftKey: 'true', " : "") +
+                ( isAlt ? "altKey: 'true', " +", " : "") +
+                "});" +
                 "document.dispatchEvent(event);" +
                 "})();";
 
         webView.post(() -> webView.evaluateJavascript(script, null));
     }
-
-
-
 }
