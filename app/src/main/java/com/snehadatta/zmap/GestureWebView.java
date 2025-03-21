@@ -22,17 +22,11 @@ public class GestureWebView extends WebView {
     private int pointerCount = 0;
     private boolean isLongPressTriggered = false;
 
-    private final ScaleGestureDetector scaleGestureDetector;
-    private float scaleFactor = 1.0f; // Default zoom scale
-
     private JavaScriptHandler javaScriptHandler;
 
     public GestureWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
         gestureDetector = new GestureDetector(context, new GestureListener());
-        scaleGestureDetector = new ScaleGestureDetector(context, new ScaleListener());
-        getSettings().setBuiltInZoomControls(true); // Enable built-in zoom controls
-        getSettings().setDisplayZoomControls(false); // Hide default controls
     }
 
     public void setJavaScriptHandler(JavaScriptHandler javaScriptHandler) {
@@ -42,8 +36,6 @@ public class GestureWebView extends WebView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         pointerCount = event.getPointerCount();
-
-        scaleGestureDetector.onTouchEvent(event);
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
@@ -60,8 +52,8 @@ public class GestureWebView extends WebView {
         gestureDetector.onTouchEvent(event);
 
         // Disable map movement when using more than 1 finger
-        if (pointerCount > 1) {
-            return true;
+        if (pointerCount> 1) {
+            return true; // Consume swipe events to prevent default WebView behavior
         } else {
             return super.onTouchEvent(event);
         }
@@ -193,57 +185,5 @@ public class GestureWebView extends WebView {
             return true;
         }
     }
-
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector detector) {
-            scaleFactor *= detector.getScaleFactor();
-
-            // Limit zoom range between 0.5x and 5.0x
-            scaleFactor = Math.max(0.5f, Math.min(scaleFactor, 5.0f));
-
-            setZoom(scaleFactor);
-            return true;
-        }
-    }
-
-    private void setZoom(float scale) {
-        if (scale > 1.0f) {
-            zoomIn(); // Zoom In
-        } else if (scale < 1.0f) {
-            zoomOut(); // Zoom Out
-        }
-    }
-
-
-    public void customZoomIn() {
-        if (scaleFactor < 10.0f) {
-            applyCustomZoom(1.2f); // Increase the zoom factor for a faster zoom-in
-            Log.d(TAG, "Zooming In: Scale " + scaleFactor);
-        } else {
-            Log.d(TAG, "Max zoom reached!");
-        }
-    }
-
-    public void customZoomOut() {
-        if (scaleFactor > 0.3f) {
-            applyCustomZoom(0.8f); // Decrease by a bigger step for faster zoom-out
-            Log.d(TAG, "Zooming Out: Scale " + scaleFactor);
-        } else {
-            Log.d(TAG, "Min zoom reached!");
-        }
-    }
-
-    private void applyCustomZoom(float factor) {
-        scaleFactor *= factor;
-
-        scaleFactor = Math.max(0.3f, Math.min(scaleFactor, 10.0f));
-
-        setScaleX(scaleFactor);
-        setScaleY(scaleFactor);
-
-        Log.d(TAG, "Zoom Scale: " + scaleFactor);
-    }
-
 
 }
