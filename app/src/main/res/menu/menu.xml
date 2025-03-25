@@ -14,6 +14,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_announce_location_coordinates"
+        android:title="Current location coordinates"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_reset_cursor"
         android:title="Reset the marker"
         app:showAsAction="never" />

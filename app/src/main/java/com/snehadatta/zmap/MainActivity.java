@@ -148,10 +148,21 @@ public class MainActivity extends AppCompatActivity {
                     /* isShift= */ false,
                     /* isAlt= */ false
             );
+            return true;
+
+        } else if (id == R.id.menu_announce_location_coordinates) {
+            // Code to announce current location
+            javaScriptHandler.simulateMarkerKeyEvents(
+                    "KeyF",
+                    "KeyF",
+                    /* isCtrl= */ false,
+                    /* isShift= */ true,
+                    /* isAlt= */ false
+            );
             Toast.makeText(this, "Announcing location!", Toast.LENGTH_SHORT).show();
             return true;
 
-        } else if (id == R.id.menu_reset_cursor) {
+        }else if (id == R.id.menu_reset_cursor) {
             // Code to reset cursor
             javaScriptHandler.simulateMarkerKeyEvents(
                     "KeyL",
